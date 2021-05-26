@@ -46,5 +46,34 @@ router.post('/textQuery', async (req, res) => {
 })
 
 //2. Event Query Route
+router.post('/eventQuery', async (req, res) => {
+
+    //Send some information that comes from the client to Dialogflow API
+
+    // The text query request.
+    const request = {
+        session: sessionPath,
+        queryInput: {
+            //eventQuery일 경우 이 부분을 event로 지정
+            event: {
+                // The query to send to the dialogflow agent
+                // client에서의 입력값
+                name: req.body.event,
+                // The language used by the client (en-US)
+                languageCode: languageCode,
+            },
+        },
+    };
+
+    // Send request and log result
+    const responses = await sessionClient.detectIntent(request);
+    console.log('Detected intent');
+    const result = responses[0].queryResult;
+    console.log(`  Query: ${result.queryText}`);
+    console.log(`  Response: ${result.fulfillmentText}`);
+   
+    res.send(result) //결과를 client로 보낸다
+
+})
 
 module.exports = router;
