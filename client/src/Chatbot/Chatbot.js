@@ -1,7 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Axios from 'axios'
 
 function Chatbot() {
+
+    useEffect(() => {
+        eventQuery('WelcomMessage')
+    })
 
     const textQuery = async(text) => {
 
@@ -42,6 +46,36 @@ function Chatbot() {
                 }
             }
             //conversationList.push(conversation)
+        }
+       
+
+    }
+
+    const eventQuery = async(event) => {
+     
+        const eventQueryVariable= {
+            event
+        }
+
+        //Event Query router로 request를 보내기
+        try {
+            const response = await Axios.post('/api/dialogflow/eventQuery', eventQueryVariable)
+            const content = response.data.fulfillmentMessages[0] //Chatbot의 response
+            let conversation = {
+                who: 'bot',
+                content: content
+            }
+            console.log(conversation)
+            
+        } catch (error) {
+            let conversation = {
+                who: 'user',
+                content: {
+                    text: {
+                        text: "Error occured"
+                    }
+                }
+            }
         }
        
 
