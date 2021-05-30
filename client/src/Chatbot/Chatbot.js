@@ -1,7 +1,10 @@
-import React, {useEffect} from 'react'
-import Axios from 'axios'
+import React, {useEffect} from 'react';
+import Axios from 'axios';
+import {useDispatch, useSelector} from 'react-redux';
+import {saveMessage} from '../_actions/message_actions';
 
 function Chatbot() {
+    const dispatch = useDispatch();
 
     useEffect(() => {
         eventQuery('WelcomMessage')
@@ -21,6 +24,7 @@ function Chatbot() {
             }
         }
         //conversationList.push(conversation) //유저의 입력을 대화 기록에 push
+        dispatch(saveMessage(conversation)) //redux store에 저장
 
         const textQueryVariable= {
             text
@@ -36,6 +40,7 @@ function Chatbot() {
             }
             console.log(conversation)
             //conversationList.push(conversation) //chatbot의 답장을 대화 기록에 push
+            dispatch(saveMessage(conversation))
         } catch (error) {
             conversation = {
                 who: 'user',
@@ -46,6 +51,7 @@ function Chatbot() {
                 }
             }
             //conversationList.push(conversation)
+            dispatch(saveMessage(conversation))
         }
        
 
@@ -66,6 +72,7 @@ function Chatbot() {
                 content: content
             }
             console.log(conversation)
+            dispatch(saveMessage(conversation))
             
         } catch (error) {
             let conversation = {
@@ -76,6 +83,7 @@ function Chatbot() {
                     }
                 }
             }
+            dispatch(saveMessage(conversation))
         }
        
 
