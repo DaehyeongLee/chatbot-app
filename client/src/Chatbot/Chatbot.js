@@ -5,6 +5,7 @@ import {saveMessage} from '../_actions/message_actions';
 
 function Chatbot() {
     const dispatch = useDispatch();
+    const messagesFromRedux = useSelector(state => state.message.messages) //redux에 저장된 message 목록 불러옴
 
     useEffect(() => {
         eventQuery('WelcomMessage')
@@ -103,13 +104,28 @@ function Chatbot() {
         }
     }
 
+    const renderOneMessage = (message, i) => {
+        console.log('message', message)
+    }
+
+    const renderMessage = (returnedMessages) => {
+
+        if(returnedMessages) {
+            return returnedMessages.map((message, i) => {
+                return renderOneMessage(message, i);
+            })
+        } else {
+            return null;
+        }
+    }
+
     return (
         <div style={{
             height: 700, width: 700,
             border: '3px solid black', borderRadius: '7px'
         }}>
             <div style={{ height: 644, width: '100%', overflow: 'auto' }}>
-
+                {renderMessage(messagesFromRedux)}
             </div>
 
             <input
