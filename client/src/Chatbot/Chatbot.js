@@ -35,14 +35,19 @@ function Chatbot() {
         //Text Query router로 request를 보내기
         try {
             const response = await Axios.post('/api/dialogflow/textQuery', textQueryVariable)
-            const content = response.data.fulfillmentMessages[0] //Chatbot의 response
-            conversation = {
-                who: 'bot',
-                content: content
+            
+            //Chatbot의 response
+            //response가 여러개일 수 있으므로 반복으로 구현
+            for (let content of response.data.fulfillmentMessages) {
+                conversation = {
+                    who: 'bot',
+                    content: content
+                }
+                //conversationList.push(conversation) //chatbot의 답장을 대화 기록에 push
+                dispatch(saveMessage(conversation))
             }
-            console.log(conversation)
-            //conversationList.push(conversation) //chatbot의 답장을 대화 기록에 push
-            dispatch(saveMessage(conversation))
+
+            
         } catch (error) {
             conversation = {
                 who: 'user',
@@ -68,13 +73,17 @@ function Chatbot() {
         //Event Query router로 request를 보내기
         try {
             const response = await Axios.post('/api/dialogflow/eventQuery', eventQueryVariable)
-            const content = response.data.fulfillmentMessages[0] //Chatbot의 response
-            let conversation = {
-                who: 'bot',
-                content: content
-            }
-            console.log(conversation)
-            //dispatch(saveMessage(conversation)) //이부분 무한 반복?? 이유는?
+            
+            //Chatbot의 response
+            //response가 여러개일 수 있으므로 반복으로 구현
+            for (let content of response.data.fulfillmentMessages) {
+                let conversation = {
+                    who: 'bot',
+                    content: content
+                }
+                console.log(conversation)
+                //dispatch(saveMessage(conversation)) //이부분 무한 반복?? 이유는?
+            }            
             
         } catch (error) {
             let conversation = {
@@ -106,7 +115,12 @@ function Chatbot() {
     }
 
     const renderOneMessage = (message, i) => {
+
+        //template for normal text
         return <Message key={i} who={message.who} text={message.content.text.text} />
+
+        //template for card message
+        //이에 경우 다른 payload 사용 필요
     }
 
     const renderMessage = (returnedMessages) => {
