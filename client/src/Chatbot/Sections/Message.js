@@ -1,5 +1,6 @@
 import React from 'react'
 import {List, Icon, Avatar} from 'antd';
+import './message.css';
 
 function Message(props) {
 

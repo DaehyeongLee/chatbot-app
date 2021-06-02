@@ -10,7 +10,7 @@ function Chatbot() {
 
     useEffect(() => {
         eventQuery('WelcomMessage')
-    })
+    }, [])
 
     const textQuery = async(text) => {
 
@@ -82,7 +82,7 @@ function Chatbot() {
                     content: content
                 }
                 console.log(conversation)
-                //dispatch(saveMessage(conversation)) //이부분 무한 반복?? 이유는?
+                dispatch(saveMessage(conversation))
             }            
             
         } catch (error) {
@@ -94,7 +94,7 @@ function Chatbot() {
                     }
                 }
             }
-            //dispatch(saveMessage(conversation))
+            dispatch(saveMessage(conversation))
         }
        
 
