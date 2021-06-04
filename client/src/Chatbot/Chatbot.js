@@ -124,7 +124,7 @@ function Chatbot() {
     }
 
     const renderOneMessage = (message, i) => {
-        console.log(message)
+        //console.log(message)
 
         //template for normal text
         if (message.content && message.content.text && message.content.text.text) {
