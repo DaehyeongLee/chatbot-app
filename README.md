@@ -1,3 +1,11 @@
+Dialogflow를 활용한 챗봇 프로젝트입니다.
+
+Front: **React, antd, redux** 
+
+Back: **Node JS, Express, MongoDB**
+
+----------------------------------------
+
 To use this application,
 
 1. make dev.js file in config folder
